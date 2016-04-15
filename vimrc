@@ -29,6 +29,9 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " Add plugins to &runtimepath
 
+" vim-surround - quoting/parenthesizing made simple
+Plug 'tpope/vim-surround'
+
 " ctrlp
 Plug 'kien/ctrlp.vim'
 
@@ -58,6 +61,9 @@ Plug 'vim-airline/vim-airline-themes'
 
 " gitgutter - A Vim plugin which shows a git diff in the 'gutter' (sign column).
 Plug 'airblade/vim-gitgutter'
+
+" taglist, plugin is a source code browser plugin for Vim
+Plug 'tkyeung357/taglist'
 
 " Tagbar - is a Vim plugin that provides an easy way to browse the tags of the current file
 Plug 'majutsushi/tagbar'
@@ -163,7 +169,7 @@ map <Leader>c "+y
 if has("gui_running")
     set cursorline                  "Highlight background of current line
     "autocmd VimEnter * TagbarOpen
-	set background=light
+	set background=dark "light
     " Show tabs and newline characters with ,s
     nmap <Leader>s :set list!<CR>
 	set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×,eol:¬
@@ -186,7 +192,7 @@ if has("gui_macvim") "Use Experimental Renderer option must be enabled for trans
     map <silent> <SwipeLeft> :bprev<CR>
     map <silent> <SwipeRight> :bnext<CR>
 	" OS X probably has ctags in a weird place
-	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+	" let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 endif
 
 "------  Plugin Setting ------
