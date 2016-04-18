@@ -48,6 +48,11 @@ Plug 'scrooloose/syntastic'
 " fugitive - git wrapper
 Plug 'tpope/vim-fugitive'
 
+" This is a simple script that shows a tabs-like list of buffers in the bottom of the window.
+Plug 'vim-scripts/buftabs'
+
+" Vim 7.0 added a new feature named Undo branches.
+Plug 'mbbill/undotree'
 " vim-indent-guides - Indent Guides is a plugin for visually displaying indent levels in Vim.
 " <Leader>ig
 Plug 'nathanaelkane/vim-indent-guides'
@@ -60,7 +65,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " gitgutter - A Vim plugin which shows a git diff in the 'gutter' (sign column).
-Plug 'airblade/vim-gitgutter'
+"Plug 'airblade/vim-gitgutter'
+
+" Signify (or just Sy) is a quite unobtrusive plugin.
+Plug 'mhinz/vim-signify'
 
 " taglist, plugin is a source code browser plugin for Vim
 Plug 'tkyeung357/taglist'
@@ -95,12 +103,13 @@ Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
-
+set encoding=utf-8
 let mapleader=","           "Changes Leader key into a comma instead of a backslash
 set nocompatible            "Prefents VIM from being nerfed into acting like VI
 set viminfo='1000,f1,:1000,/1000
 set history=500
-colorscheme solarized
+set backspace=indent,eol,start "Backspace key won't move from current line
+colorscheme solarized "default colorscheme
 
 "------  Visual Options  ------
 set guioptions=egmt         "remove toolbar, scrollbars
@@ -111,8 +120,8 @@ set linebreak
 set nolist					"list disables linebreak
 set vb                      "Visual bell instead of beeps
 set ruler                   "Displays cursor position on bottom right of screen
-let g:buftabs_only_basename=1
-let g:buftabs_marker_modified = "+"
+
+"setlocal spell spelllang=en_us
 
 "------  Behavior  ------
 set tabstop=4               "tab = 4 spaces
@@ -185,7 +194,6 @@ endif
 
 if has("gui_macvim") "Use Experimental Renderer option must be enabled for transparency
 	"set guifont=Monaco:h14
-	set guifont=Monaco:h10
 	"set noantialias
 	"set transparency=15
     " Swipe to move between bufers :D
@@ -256,12 +264,54 @@ let g:syntastic_check_on_wq = 0
 
 autocmd BufNewFile,BufRead *.json set ft=json
 
-"------  vim-airline  -------
-let g:airline#extensions#tabline#enabled = 1
+" ----- undotree ---------
+nnoremap <F5> :UndotreeToggle<cr>
+if has("persistent_undo")
+    set undodir=~/.undodir/
+    set undofile
+endif
 
-"------  gitgutter  -------
-let g:gitgutter_sign_column_always = 1 "always display gutter
-let g:gitgutter_max_signs = 500  " default value
+" ----- buftab ---------
+noremap <f1> :bprev<CR> 
+noremap <f2> :bnext<CR> 
+let g:buftabs_only_basename=1
+let g:buftabs_marker_modified = "+"
+
+"------  vim-airline  -------
+set laststatus=2
+set guifont=Source\ Code\ Pro\ for\ Powerline:h11 "make sure to escape the spaces in the name properly
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts=1
+
+if !exists('g:airline_symbols')
+let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 "------  tagbar  -------
 nmap <F8> :TagbarToggle<CR>
